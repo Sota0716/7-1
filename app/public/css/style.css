@@ -1,0 +1,56 @@
+.share-herader-bg{
+    background: linear-gradient(-225deg, #2CD8D5 0%, #C5C1FF 56%, #FFBAC3 100%); 
+}
+
+.share-bg{
+    background-color: rgb(223, 227, 228); 
+}
+
+/* 高さ90px */
+.share-height-90{
+    height: 90px;
+}
+/* フォントサイズ */
+.share-fontsize1{
+    font-size: 35px;
+    border-bottom: 1px solid black;
+}
+.share-fontsize2{
+    font-size: 35px;
+    border-bottom: 1px solid black;
+}
+/* 投稿アイコン */
+.share-post-icon{
+    width: 80px;
+    height: 80px;
+    border: thick double #32a1ce;
+    background-color: #C5C1FF;
+}
+.share-timeline-post-box{
+    width: 90%;
+    height: 700px;
+    }
+.share-post-img{
+    width: 80%;
+    height: 350px;
+    background-color: aliceblue;
+}
+.share-post-img img{
+    width: 100%;
+}
+
+.share-post-text{
+    font-size: 30px;
+    height: 450px;
+    border: 1px solid rgb(26, 26, 26);
+}
+.share-post-text textarea{
+    font-size: 25px;
+    resize: none;
+}
+.share-post-img-ban{
+    height: 40px;
+}
+.share-post-img-ban img{
+    height: 50px;
+}

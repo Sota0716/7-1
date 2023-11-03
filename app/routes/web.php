@@ -11,6 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\DisplayController;
+use App\Http\Controllers\RegistrationController;
+use Illuminate\Support\Facades\Route;
+
+
+
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+// タイムライン
+Route::get('/',[DisplayController::class,'index']);
+//新規投稿
+Route::get('/create_post',[RegistrationController::class,'createPostForm']);
+Route::post('/create_post',[RegistrationController::class,'createPost']);

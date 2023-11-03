@@ -1,6 +1,10 @@
 # docker-composeのバージョン指定
 version: '3.8'
 
+# ネットワークの定義
+networks:
+  mynetwork:
+
 # コンテナ群の記述
 services:
   # nginxというサービス
@@ -19,6 +23,8 @@ services:
     # 依存関係の指定 (指定したコンテナより後に立ち上がる)
     depends_on:
       - php
+    networks:
+    - mynetwork
 
   php:
     container_name: curriculum-laravel
@@ -41,6 +47,8 @@ services:
       - "9000"
     depends_on:
       - db
+    networks:
+      - mynetwork      
 
   db:
     container_name: curriculum-db
@@ -54,6 +62,8 @@ services:
     restart: always
     ports:
       - 3306:3306
+    networks:
+      - mynetwork      
 
   phpMyAdmin:
     image: phpmyadmin/phpmyadmin
@@ -69,3 +79,5 @@ services:
       - 4040:80
     volumes:
       - ./phpmyadmin/sessions:/sessions
+    networks:
+      - mynetwork      

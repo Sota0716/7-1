@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateViolationReportsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('violation_reports', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id'); // ユーザーID
+            $table->foreign('user_id')->references('id')->on('users'); // ユーザーテーブルとの外部キー関連
+
+            $table->unsignedBigInteger('post_id'); // 投稿ID
+            $table->foreign('post_id')->references('id')->on('posts'); // 投稿テーブルとの外部キー関連
+
+            $table->string('text', 500)->nullable(); // 違反内容（NULL許可）
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('violation_reports');
+    }
+}
