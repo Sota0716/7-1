@@ -27,3 +27,6 @@ Route::get('/',[DisplayController::class,'index']);
 //新規投稿
 Route::get('/create_post',[RegistrationController::class,'createPostForm']);
 Route::post('/create_post',[RegistrationController::class,'createPost']);
+//プロフィール編集
+Route::get('/profile_edit',[RegistrationController::class,'profileEditForm']);
+Route::post('/profile_edit',[RegistrationController::class,'profileEdit'])->name('profile.edit');

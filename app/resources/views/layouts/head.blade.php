@@ -26,10 +26,16 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white bg-gradient shadow-lg share-herader-bg">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}" >
-                    SHARE
-                </a>
-                <a href="{{ route('login') }}"><button type="button" class="btn btn-success">ログイン</button></a>
+                    <a class="navbar-brand" href="{{ url('/') }}" >
+                        SHARE
+                    </a>
+                @if(Auth::check())
+                    <a class=" share-heder-icon d-flex align-items-center justify-content-center" href="">
+                    <img src="{{ asset(Auth::user()->image) }}" alt="">
+                    </a>
+                @else
+                    <a href="{{ route('login') }}"><button type="button" class="btn btn-success">ログイン</button></a>
+                @endif
             </div>
         </nav>
     </div>

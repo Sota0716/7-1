@@ -6,7 +6,7 @@
 <div class="container-fluid d-flex justify-content-center py-5">
     <!-- 投稿BOX -->
     
-    <form action="" method="post" enctype="multipart/form-data" class="row share-timeline-post-box border border-1 rounded share-bg">
+    <form action="{{ route('profile.edit') }}" method="post" enctype="multipart/form-data" class="row share-timeline-post-box border border-1 rounded share-bg">
     @csrf
         <!-- 投稿左部分 -->
         
@@ -24,6 +24,7 @@
             
             </div>
             <input type="file" name="image">
+            
             
         </div>
         <!-- 投稿右部分 -->
