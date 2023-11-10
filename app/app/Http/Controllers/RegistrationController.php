@@ -35,9 +35,11 @@ class RegistrationController extends Controller
         $post->image = 'storage/' . $dir . '/' . $file_name;
 
         $post->save();
-        return view('/create_post'); 
+        return redirect('/'); 
     }
+
     //ーーーーーーーーーープロフィール編集表示ーーーーーーーーーー
+
     public function profileEditForm(){
         $user = Auth::user();
 
@@ -46,7 +48,9 @@ class RegistrationController extends Controller
             'users' => $user
         ]);
     }
+
     //ーーーーーーーーーープロフィール登録ーーーーーーーーーー
+    
     public function profileEdit(Request $request){
         $user = Auth::user();
         // 画像登録
@@ -65,8 +69,7 @@ class RegistrationController extends Controller
         }
         $user->save();
         
-
-        return redirect('profile_edit');
+        return redirect('mypage');
     }
     
 }

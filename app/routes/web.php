@@ -25,8 +25,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 // タイムライン
 Route::get('/',[DisplayController::class,'index']);
 //新規投稿
-Route::get('/create_post',[RegistrationController::class,'createPostForm']);
-Route::post('/create_post',[RegistrationController::class,'createPost']);
+Route::get('/create_post',[RegistrationController::class,'createPostForm'])->name('create.post.form');
+Route::post('/create_post',[RegistrationController::class,'createPost'])->name('create.post');
+//マイページ表示
+Route::get('/mypage',[DisplayController::class,'mypage'])->name('mypage');
 //プロフィール編集
-Route::get('/profile_edit',[RegistrationController::class,'profileEditForm']);
+Route::get('/profile_edit',[RegistrationController::class,'profileEditForm'])->name('profile.edit.form');
 Route::post('/profile_edit',[RegistrationController::class,'profileEdit'])->name('profile.edit');

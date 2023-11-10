@@ -30,7 +30,7 @@
                         SHARE
                     </a>
                 @if(Auth::check())
-                    <a class=" share-heder-icon d-flex align-items-center justify-content-center" href="">
+                    <a class=" share-heder-icon d-flex align-items-center justify-content-center" href="{{ route('mypage') }}">
                     <img src="{{ asset(Auth::user()->image) }}" alt="">
                     </a>
                 @else

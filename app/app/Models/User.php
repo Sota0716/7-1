@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
 
     //テーブルの関係性
-    public function post(){
+    public function posts(){
         return $this->hasMany('App\Models\Post');
     }
 

@@ -3,10 +3,13 @@
 
 <!-- ーーーーーーーーーー新規投稿ーーーーーーーーーー -->
 
-<div class="container-fluid d-flex justify-content-center py-5">
+<div class="w-100 py-4 share-flex-column-center  py-5">
     <!-- 投稿BOX -->
-    
-    <form action="{{ route('profile.edit') }}" method="post" enctype="multipart/form-data" class="row share-timeline-post-box border border-1 rounded share-bg">
+    <div class="row row-cols-3 w-100 share-height-70 my-4 text-center">
+        <div class="col"></div>
+        <div class="col h1">新規投稿</div>
+    </div>
+    <form action="{{ route('create.post') }}" method="post" enctype="multipart/form-data" class="row share-timeline-post-box border border-1 rounded share-bg">
     @csrf
         <!-- 投稿左部分 -->
         

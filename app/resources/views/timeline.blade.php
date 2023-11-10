@@ -9,7 +9,7 @@
             <div class="col-sm">
                 <div class="d-flex align-items-center share-height-90">
                     <!-- アイコン -->        
-                    <a class="rounded-circle share-post-icon d-flex align-items-center justify-content-center" href="">
+                    <a class="rounded-circle share-post-icon d-flex align-items-center justify-content-center" href="{{ route('mypage') }}">
                     <img src="{{ $post['user']['image'] }}" alt="">
                     </a>                    
                     <!-- 留学地域  -->
