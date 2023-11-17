@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="col d-flex justify-content-center py-4">
-            <button type='submit' class="btn btn-primary btn-lg">投稿</button>
+            <button type='submit' class="btn btn-primary btn-lg" onclick='return confirm("投稿しますか？")'>投稿</button>
         </div>
     </form>
  

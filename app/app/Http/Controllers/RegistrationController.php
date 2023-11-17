@@ -2,13 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Violation_report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class RegistrationController extends Controller
-{
+{   
+    //ーーーーーーーーーー違反登録ーーーーーーーーーー
+    public function createReport(Post $post,Request $request){
+
+        $reports = new Violation_report;
+    
+        
+        $reports->user_id = Auth::user()->id;
+        $reports->post_id = $post->id;
+        $reports->text = $request->text;
+
+        $reports->save();
+
+        return redirect('/');
+    }
     //ーーーーーーーーーー投稿表示ーーーーーーーーーー
 
     public function createPostForm(){
@@ -24,6 +40,7 @@ class RegistrationController extends Controller
             $dir = 'sample';//ディレクトリ名     
             $file_name = $request->file('image')->getClientOriginalName();
             $path = $request->file('image')->storeAs('public/' . $dir, $file_name);
+            $post->image = 'storage/' . $dir . '/' . $file_name;
         }else{
             $path = null;
         }
@@ -32,17 +49,28 @@ class RegistrationController extends Controller
         $post->title = $request->title;
         $post->text = $request->text;
         $post->user_id = auth()->user()->id;
-        $post->image = 'storage/' . $dir . '/' . $file_name;
+        
 
         $post->save();
         return redirect('/'); 
+    }
+    //ーーーーーーーーーーコメント登録ーーーーーーーーーー
+    public function createComment(Post $post,Request $request){
+        //コメントデータ格納
+        $comment = new Comment;
+        $comment->text = $request->text;
+        $comment->user_id = Auth::user()->id;
+        $comment->post_id = $post->id;
+        
+        $comment->save();
+        return redirect('/');
     }
 
     //ーーーーーーーーーープロフィール編集表示ーーーーーーーーーー
 
     public function profileEditForm(){
-        $user = Auth::user();
 
+        $user = Auth::user();
 
         return view('profile_edit',[
             'users' => $user
@@ -52,6 +80,7 @@ class RegistrationController extends Controller
     //ーーーーーーーーーープロフィール登録ーーーーーーーーーー
     
     public function profileEdit(Request $request){
+        
         $user = Auth::user();
         // 画像登録
         if($request->hasFile('image')){   
@@ -69,7 +98,7 @@ class RegistrationController extends Controller
         }
         $user->save();
         
-        return redirect('mypage');
+        return redirect('/mypage')->with('message', 'プロフィール編集完了');
     }
     
 }

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -37,4 +39,15 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    // protected function authenticated(Request $request, $user)
+    // {
+    //     if ($user->role == 0) {
+    //         // 管理者の場合、ManagerController の index メソッドにリダイレクト
+    //         return redirect()->route('manager.index');
+    //     }
+
+    //     // 通常のユーザーの場合はデフォルトのリダイレクト
+    //     return redirect()->intended($this->redirectPath());
+    // }
 }

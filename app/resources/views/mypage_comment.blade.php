@@ -1,6 +1,6 @@
 @extends('layouts.head')
 @section('content')
-<!-- ーーーーーーーーーーマイページーーーーーーーーーー-->
+    <!-- ーーーーーーーーーーマイページ　コメント表示ーーーーーーーーーー-->
 <!-- 完了メッセージ -->
 @if(session('message'))
     <div class="alert alert-success">
@@ -49,7 +49,7 @@
 <!-- コメントした投稿 などフィルター -->
     <div class="w-100 row row-cols-3 border-top border-bottom share-mypage-filter">
         <div class="col share-flex-column-center share-mypage-box ">
-            <a href="{{ route('mypage.comment') }}"><img src="{{ asset('imges/icons8-コメント-100.png') }}" alt=""></a>
+            <a href=""><img src="{{ asset('imges/icons8-コメント-100.png') }}" alt=""></a>
         </div>
         <div class="col share-flex-column-center share-mypage-box">
             <a href="{{ route('mypage') }}"><img src="{{ asset('imges/icons8-ハッピー-96.png') }}" alt=""></a>
@@ -65,44 +65,39 @@
                 <!-- 投稿左部分 -->
                 <div class="col-sm">
                     <div class="d-flex align-items-center share-height-90">
-                        <!-- アイコン -->        
-                        <a class="rounded-circle share-post-icon d-flex align-items-center justify-content-center" href="">
-                        <img src="{{ $post['user']['image'] }}" alt="">
-                        </a>                    
+                        <!-- アイコン -->                                                                                
+                            <a class="rounded-circle share-post-icon d-flex align-items-center justify-content-center" href="">
+                                <img src="{{ asset($post['post']['user']['image']) }}" alt="">
+                            </a>                                                                        
                         <!-- 留学地域  -->
-                        <div class="ml-5 share-fontsize1">{{ $post['spot'] }}</div>
-                    
+                        <div class="ml-5 share-fontsize1">{{ $post['post']['spot'] }}</div>
                     </div>
                     <!-- 投稿画像 -->
                     <div class="mt-5 share-post-img">
-                        <img class="share-box52" src="{{ asset($post['image']) }}" alt="">
+                        <img class="share-box52" src="{{ asset($post['post']['image']) }}" alt="">
                     </div>
                 </div>
                 <!-- 投稿右部分 -->
                 <div  class="col-sm h-100">
-                    <!-- 編集機能 -->
-                    <div class="w-100  d-flex justify-content-end share-fontsize3">
-                    <a href="{{ route('edit.post.form',['post' => $post['id'] ]) }}" class="border">編集</a>
-                    </div>
                     <div class="w-100 d-flex justify-content-end ">
                         <a href="" class="share-post-img-ban"><img src="{{asset('imgs/ban.png')}}" alt=""></a>
                     </div>
                     <div class="w-100 mt-5 d-flex justify-content-center">
-                        <div class="share-fontsize2">{{ $post['title'] }}</div>
+                        <div class="share-fontsize2">{{ $post['post']['title'] }}</div>
                     </div>
                     <div class="mt-3 share-post-text">
-                        <textarea  class="form-control h-100" readonly>{{ ($post['text']) }}</textarea>
+                        <textarea  class="form-control h-100" readonly>{{ ($post['post']['text']) }}</textarea>
                     </div>
-                    <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModalLong{{ $post['id'] }}">
+                    <button type="button" class="btn btn-primary my-2" data-toggle="modal" data-target="#exampleModalLong{{ $post['post']['id'] }}">
                     コメント表示
                     </button>
                 </div>
                 <!-- モーダル -->
-                <div class="modal fade" id="exampleModalLong{{ $post['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                <div class="modal fade" id="exampleModalLong{{ $post['post']['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                         <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title" id="exampleModalLongTitle">{{ $post['title'] }}</h5>
+                            <h5 class="modal-title" id="exampleModalLongTitle">{{ $post['post']['title'] }}</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
@@ -110,7 +105,7 @@
                         <!-- コメント表示 -->
                         <div class="modal-body">
                             @foreach ($comments as $comment)
-                                @if($comment['post_id']== $post['id'])
+                                @if($comment['post_id']== $post['post']['id'])
                                     <div class="w-100 border-top border-bottom">
                                         <div>{{ $comment['created_at'] }}</div>
                                         <div class="w-100 d-flex">
@@ -123,7 +118,7 @@
                         </div>
                         <div class="modal-footer bg-secondary text-white">
                             <!-- コメント送信 -->
-                            <form action="{{ route('create.comment',[ 'post'=>$post['id'] ]) }}" method="post" class="w-100">
+                            <form action="{{ route('create.comment',[ 'post'=>$post['post']['id'] ]) }}" method="post" class="w-100">
                             @csrf    
                                 <div  class="form-group">
                                     <label for="text1">コメントする</label>
@@ -141,5 +136,4 @@
             </div>
         @endforeach
     </div>
-
 @endsection
