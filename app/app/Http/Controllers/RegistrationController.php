@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateComment;
+use App\Http\Requests\CreatePost;
+use App\Http\Requests\CreateUser;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
@@ -14,26 +17,32 @@ class RegistrationController extends Controller
     //ーーーーーーーーーー違反登録ーーーーーーーーーー
     public function createReport(Post $post,Request $request){
 
-        $reports = new Violation_report;
-    
-        
-        $reports->user_id = Auth::user()->id;
-        $reports->post_id = $post->id;
-        $reports->text = $request->text;
+        if(Auth::check() && Auth::id()==$post->user_id){
+            return redirect()->route('share.error');
+        }else{
+        $reports = new Violation_report;  
+            $reports->user_id = Auth::user()->id;
+            $reports->post_id = $post->id;
+            $reports->text = $request->text;
 
-        $reports->save();
+            $reports->save();
 
-        return redirect('/');
+            return redirect('/');
+        }
     }
     //ーーーーーーーーーー投稿表示ーーーーーーーーーー
 
     public function createPostForm(){
-        return view('create_post');
+        if(Auth::user()->del_flg == 1 ){
+            return redirect()->route('share.error');
+        }else{
+            return view('create_post');
+        }
     }
 
     //ーーーーーーーーーー投稿登録ーーーーーーーーーー
 
-    public function createPost(Request $request){
+    public function createPost(CreatePost $request){
         $post = new Post;
         // 画像登録
         if($request->hasFile('image')){   
@@ -42,7 +51,7 @@ class RegistrationController extends Controller
             $path = $request->file('image')->storeAs('public/' . $dir, $file_name);
             $post->image = 'storage/' . $dir . '/' . $file_name;
         }else{
-            $path = null;
+            $post->image = null;
         }
         //投稿データ格納
         $post->spot = $request->spot;
@@ -55,31 +64,35 @@ class RegistrationController extends Controller
         return redirect('/'); 
     }
     //ーーーーーーーーーーコメント登録ーーーーーーーーーー
-    public function createComment(Post $post,Request $request){
+    public function createComment(Post $post,CreateComment $request){
         //コメントデータ格納
         $comment = new Comment;
-        $comment->text = $request->text;
+        $comment->text = $request->comment;
         $comment->user_id = Auth::user()->id;
         $comment->post_id = $post->id;
         
         $comment->save();
-        return redirect('/');
+        return redirect('/comment/'.$post->id);
     }
 
     //ーーーーーーーーーープロフィール編集表示ーーーーーーーーーー
 
     public function profileEditForm(){
 
-        $user = Auth::user();
-
-        return view('profile_edit',[
-            'users' => $user
-        ]);
+        
+        if(Auth::user()->del_flg == 1 ){
+            return redirect()->route('share.error');
+        }else{
+            $user = Auth::user();
+            return view('profile_edit',[
+                'users' => $user
+            ]);
+        }
     }
 
     //ーーーーーーーーーープロフィール登録ーーーーーーーーーー
     
-    public function profileEdit(Request $request){
+    public function profileEdit(CreateUser $request){
         
         $user = Auth::user();
         // 画像登録

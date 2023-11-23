@@ -22,16 +22,18 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     
 </head>
-<body class="w-100">
-    <div id="app">
+<body class="w-100 ">
+    <div id="app ">
         <nav class="navbar navbar-expand-md navbar-light bg-white bg-gradient shadow-lg share-herader-bg">
             <div class="container">
                     <a class="navbar-brand" href="{{ url('/') }}" >
                         SHARE
                     </a>
-                @if(Auth::check())
+                @if(Auth::check()&&Auth::user()->role == 0)
+                    <div>管理者</div>
+                @elseif(Auth::check())
                     <a class=" share-heder-icon d-flex align-items-center justify-content-center" href="{{ route('mypage') }}">
-                    <img src="{{ asset(Auth::user()->image) }}" alt="">
+                    <img src="{{ asset(Auth::user()->image) }}" alt="" onerror="this.src='{{asset('imges/icons8-ユーザー-96.png')}}'">
                     </a>
                 @else
                     <a href="{{ route('login') }}"><button type="button" class="btn btn-success">ログイン</button></a>

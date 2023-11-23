@@ -8,16 +8,21 @@
     <div class="row row-cols-3 w-100 share-height-70 my-4 text-center">
         <div class="col"></div>
         <div class="col h1">プロフィール編集</div>
-        <div class="col"><a href=""><button class="btn btn-outline-danger ">退会</button></a></div>
+        <div class="col">
+            <form action="{{ route('delete.user',['user' => $users['id'] ]) }}" method="post">
+                @csrf
+            <button type="submit" class="btn btn-outline-danger" onclick='return confirm("本当に退会しますか？")'>退会</button>
+            </form>
+        </div>
     </div>
 <!-- 編集フォーム -->
     <div class="shadow w-75 my-2">
-        <form action="" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center justify-content-center">
+        <form action="{{ route('profile.edit')}}" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center justify-content-center">
         @csrf
             <div class="share-profile-wh d-flex my-3 ">
                 <div>
                     <label class="share-profile-width share-font-size" for="icon">アイコン</label>
-                    <div class="share-profile-icon d-flex align-items-center justify-content-center "><img src="{{ asset($users['image']) }}" alt=""></div>
+                    <div class="share-profile-icon d-flex align-items-center justify-content-center "><img src="{{ asset($users['image']) }}" alt="" onerror="this.src='{{asset('imges/icons8-ユーザー-96.png')}}'"></div>
                 </div>
                 <input type="file" name="image"  class="">
             </div>
@@ -42,6 +47,17 @@
             </div>
         </form>
     </div>
+    <!-- バリデーションアラート -->
+    @if($errors->any())
+        @foreach($errors->all() as $massage)
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ $massage }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        @endforeach
+    @endif
 </div>
 
 

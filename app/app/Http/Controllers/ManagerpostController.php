@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\Violation_report;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ManagerpostController extends Controller
 {
@@ -14,17 +16,27 @@ class ManagerpostController extends Controller
      */
     public function index()
     {
-        $report= Violation_report::select('post_id')
-        ->with('post.user')
-        ->selectRaw('COUNT(post_id) as count_postid')
-        ->groupBy('post_id')
-        ->orderBy('count_postid', 'desc')
-        ->distinct()
-        ->take(20)
-        ->get();
-        return view('manager/manager_post',[
-            'reports'=>$report,
-        ]);
+        if(Auth::check()&&Auth::user()->role == 0){
+
+            $report= Violation_report::select('post_id')
+            ->with('post.user')
+            ->selectRaw('COUNT(post_id) as count_postid')
+            ->groupBy('post_id')
+            ->orderBy('count_postid', 'desc')        
+            ->take(20)
+            ->whereHas('post', function ($query) {
+                $query->where('del_flg', 0);
+            })
+            ->get();
+            
+
+            
+            return view('manager/manager_post',[
+                'reports'=>$report,
+            ]);
+        }else{
+            return view('error');
+        }
     }
 
     /**
@@ -56,7 +68,16 @@ class ManagerpostController extends Controller
      */
     public function show($id)
     {
-        //
+        if(Auth::check()&&Auth::user()->role == 0){
+            
+            $report= Violation_report::where('post_id',$id)->with('user')->get()->toArray();
+            
+            return view('manager/manager_post_comment',[
+                'reports'=>$report,
+            ]);
+        }else{
+            return view('error');
+        }
     }
 
     /**
@@ -90,6 +111,13 @@ class ManagerpostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if(Auth::check()&&Auth::user()->role == 0){
+            $post = Post::find($id);
+            $post ->del_flg = 1 ;
+            $post->save();
+            return redirect('/manager_post');
+        }else{
+            return view('error');
+        }
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.head')
 @section('content')
     <div class="row row-cols-3 w-100 share-height-70 my-4 text-center">
-        <div class="col"><a href="" class="btn btn-outline-secondary" style="width:30rem;">ユーザーリストへ</a></div>
+        <div class="col"><a href="{{ route('manager_user.index') }}" class="btn btn-outline-secondary" style="width:30rem;">ユーザーリストへ</a></div>
         <div class="col"></div>
         <div class="col"><a href="{{ route('logout') }}" class="btn btn-outline-secondary" 
             onclick="event.preventDefault();document.getElementById('logout-form').submit();">ログアウト</a>
@@ -30,8 +30,14 @@
             <th scope="row">{{ $report['post_id'] }}</th>
             <td>{{ $report['post']['user']['name'] }}</td>
             <td>{{ $report['count_postid'] }}</td>
-            <td>確認する</td>
-            <td>非表示</td>
+            <td><a href="{{route('manager_post.show',['manager_post'=>$report['post_id']]) }}">確認する</a></td>
+            <td>
+                <form action="{{ route('manager_post.destroy',['manager_post'=>$report['post_id'] ]) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                <button type='submit' class="btn btn-primary" >非表示</button>
+                </form>
+            </td>
             </tr>
             @endforeach
         </tbody>

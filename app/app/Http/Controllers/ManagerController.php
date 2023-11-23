@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use App\Models\User;
 use App\Models\Violation_report;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ManagerController extends Controller
@@ -18,17 +20,26 @@ class ManagerController extends Controller
     public function index()
     {   
         // 昇順
-        $report= Violation_report::select('post_id')
-        ->with('post.user')
-        ->selectRaw('COUNT(post_id) as count_postid')
-        ->groupBy('post_id')
-        ->orderBy('count_postid', 'desc')
-        ->distinct()
-        ->take(20)
-        ->get();
-        return view('manager/manager_post',[
-            'reports'=>$report,
-        ]);
+        // if(Auth::check()&&Auth::user()->role == 0){
+            $report= 
+            Post::select('del_flg','user_id')
+            ->with('user')
+            ->selectRaw('COUNT(del_flg) as count_flg')
+            ->where('del_flg','1')
+            ->groupBy('user_id', 'del_flg')
+            ->orderBy('count_flg', 'desc')
+            ->take(10)
+            ->whereHas('user', function ($query) {
+                $query->where('del_flg', 0);
+            })
+            ->get()
+            ->toArray();
+            return view('manager/manager_user',[
+                'reports'=>$report,
+            ]);
+        // }else{
+            // return view('error');
+        // }
     }
 
     /**
@@ -94,6 +105,13 @@ class ManagerController extends Controller
      */
     public function destroy($id)
     {
-        
+        if(Auth::check()&&Auth::user()->role == 0){
+            $user =User::find($id);
+            $user ->del_flg = 1 ;
+            $user->save();
+            return redirect('/manager_user');
+        }else{
+            return view('error');
+        }
     }
 }

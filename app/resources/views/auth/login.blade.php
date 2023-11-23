@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.head')
 
 @section('content')
 <div class="container">
@@ -52,17 +52,19 @@
 
                         <div class="d-flex justify-content-center">
                             <div>
-                                <button type="submit" class="btn btn-success">
-                                    ログイン
-                                </button>
-
                                 @if (Route::has('password.request'))
                                 <div>
                                     <a class="btn btn-link" href="{{ route('password.request') }}">※パスワード忘れた方はこちら</a>
                                 </div>
                                 @endif
+
+                                <button type="submit" class="btn btn-success mt-5 my-2" style="width:15rem;">
+                                    ログイン
+                                </button>
+
+                                
                                 <div class="">
-                                    <a class="btn btn-primary" href="{{ route('register') }}">新規登録</a>
+                                    <a href="{{ route('register') }}" class="btn btn-primary my-4" style="width:15rem;" >新規登録</a>
                                 </div>
                             </div>
                             
