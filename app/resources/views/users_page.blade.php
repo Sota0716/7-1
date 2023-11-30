@@ -17,14 +17,19 @@
                     <div>ユーザー名</div>
                     <div>留学地域</div>
                     <div>プロフィール</div>                
+                </div>
+                <div class="share-fontsize3">
+                    <div>:</div>
+                    <div>:</div>
+                    <div>:</div>                
                 </div>            
                 <!-- ユーザーデータ表示 -->
-                <div class="share-fontsize3 mx-2">
+                <div class="share-fontsize3 "style="width:15rem;">
                 @foreach ($posts as $post)    
                     @if($loop->first)               
-                    <div>:　{{ $post['user']['name'] }}</div>
-                    <div>:　{{ $post['user']['spot'] }}</div>
-                    <div>:　{{ $post['user']['profile'] }}</div>
+                    <div>　{{ $post['user']['name'] }}</div>
+                    <div class="text-nowrap">　{{ $post['user']['spot'] }}</div>
+                    <div class="overflow-auto text-nowrap">　{{ $post['user']['profile'] }}</div>
                     @endif
                 @endforeach    
                 </div>

@@ -20,10 +20,15 @@
                     <div>留学地域</div>
                     <div>プロフィール</div>                
                 </div>
-                <div class="share-fontsize3 mx-2" style="width:15rem;">                
-                    <div>　:{{ $user->name }}</div>
-                    <div>　:{{ $user->spot }}</div>
-                    <div class="overflow-auto">　:{{ $user->profile }}</div>
+                <div class="share-fontsize3">
+                    <div>:</div>
+                    <div>:</div>
+                    <div>:</div>                
+                </div>
+                <div class="share-fontsize3" style="width:15rem;">                
+                    <div>　{{ $user->name }}</div>
+                    <div class="text-nowrap">　{{ $user->spot }}</div>
+                    <div class="overflow-auto text-nowrap">　{{ $user->profile }}</div>
                 </div>
                 
 
